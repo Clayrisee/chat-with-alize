@@ -1,0 +1,6 @@
+langchain
+streamlit
+openai
+faiss-cpu
+google-api-python-client
+tiktoken
