@@ -6,7 +6,7 @@ from langchain.embeddings.openai import OpenAIEmbeddings
 class VectorDB:
     def __init__(self) -> None:
         self.search_engine = GoogleSearchAPI()
-        self.db = FAISS.from_texts([""], OpenAIEmbeddings())
+        self.db = FAISS.from_texts([BaseKnowledges.IDENTITY], OpenAIEmbeddings())
         self.__init_db_with_based_knowledges()
     
     def __init_db_with_based_knowledges(self):
