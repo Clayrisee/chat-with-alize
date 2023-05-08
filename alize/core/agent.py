@@ -1,34 +1,28 @@
-
-
+from langchain import OpenAI
+from langchain.chains import ConversationalRetrievalChain
+from alize.core.vectordb import VectorDB
 
 class AlizeCore:
     def __init__(self):
         self.chat_hist = []
+        self.model = OpenAI()
+        self.db = VectorDB()
+        self.__init_agent()
     
     def __init_agent(self):
-        # TODO: Init logic agent 
-    
-    # Example
-    # qa = ConversationalRetrievalChain.from_llm(OpenAI(model_name=), retriever)
-
-    # chat_hist = []
-    # query = "Please provide Iphone 14 Pro Specification"
-    # result = qa({"question": query, "chat_history": chat_hist})
-    # print(f"Question: {query}")
-    # print(f"Anwer: {result['answer']}")
-    # chat_hist =[(query, result["answer"])]
-    # query = "give me price of Iphone 14"
-    # result = qa({"question": query, "chat_history": chat_hist})
-    # print(f"Question: {query}")
-    # print(f"Anwer: {result['answer']}")
-        pass
+        self.agent = ConversationalRetrievalChain.from_llm(llm=self.model, retriever=self.db.as_retriever())
     
     def update_knowledge(self, keyword):
-        # Update knowledge based on keyword
-        # Reinit Agent
-        pass
+        self.db.update_knowledge(keyword)
+        self.__init_agent()
     
     def predict(self, query):
-        # TODO: Run query
-        # TODO: Then add to chat history
-        pass
+        input_query = {'question': query, 'chat_history': self.chat_hist}
+        result_answer = self.agent(input_query)
+        if result_answer is not None:
+            qa_tuple = (query, result_answer['answer'])
+            self.chat_hist.append(qa_tuple)
+        return result_answer['answer']
+            
+    def reset_chat_hist(self):
+        self.chat_hist = []
