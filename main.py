@@ -50,9 +50,7 @@ def new_chat(model_name):
 
 # Define function to update model knowledge
 def update_knowledge(keyword):
-    st.session_state.agent.update_knowledge(keyword.value)
-    keyword.value = ''
-    # new_chat(st.session_state.model_name)
+    st.session_state.agent.update_knowledge(keyword)
 
 st.sidebar.text("Configuration Area")
 
@@ -113,4 +111,4 @@ for i, sublist in enumerate(st.session_state.stored_session):
 # Allow the user to clear all stored conversation sessions
 if st.session_state.stored_session:   
     if st.sidebar.checkbox("Clear-all"):
-        del st.session_state.stored_session
+        st.session_state["stored_session"] = []
