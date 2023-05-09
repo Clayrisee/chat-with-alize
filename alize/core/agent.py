@@ -12,6 +12,12 @@ class AlizeCore:
     def __init_agent(self):
         self.agent = ConversationalRetrievalChain.from_llm(llm=self.model, retriever=self.db.as_retriever())
     
+    def update_model(self, model_name):
+        self.model = OpenAI(temperature=0, 
+                model_name=model_name, 
+                verbose=False)
+        self.__init_agent()
+    
     def update_knowledge(self, keyword):
         self.db.update_knowledge(keyword)
         self.__init_agent()
