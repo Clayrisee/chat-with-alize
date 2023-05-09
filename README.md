@@ -40,12 +40,19 @@ streamlit run main.py
 ### Run via Dockerfile
 First, you need to pull the image registry from docker hub.
 ```bash
-docker pull <UPDATE-IMAGE-REGISTRY>
+docker pull clayrisee/chat-with-alize:1.0.0
 ```
 
-after you pull the docker images, you can execute this command line.
+After you pull the docker images, you need to prepare .env files to set your credentials like example below.
 ```bash
-<WILL BE UPDATED LATER..>
+GOOGLE_API_KEY=<GOOGLE_API_KEY>
+GOOGLE_CSE_ID=<GOOGLE_CSE_ID>
+OPENAI_API_KEY=<OPEN_API_KEY>
+```
+
+then, you can execute this command line.
+```bash
+docker run -d -it --name chat_with_alize --env-file examples/example.env --env="DISPLAY" --net=host --ipc=host --entrypoint /app/run_streamlit.sh clayrisee/chat-with-alize:1.0.0
 ```
 
 ## Development
